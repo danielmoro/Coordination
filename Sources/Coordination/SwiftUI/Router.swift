@@ -9,8 +9,8 @@ import SwiftUI
 
 public protocol ViewRouter {
     func setRoot<V: View>(_ view: V)
-    func navigateTo<V: View>(_ view: V)
-    func presentSheet<V: View>(_ view: V)
+    func navigateTo<V: View>(_ view: V, onDismiss: (() -> Void)?)
+    func presentSheet<V: View>(_ view: V, onDismiss: (() -> Void)?)
     func dismiss()
 }
 
@@ -23,6 +23,7 @@ public class Router: ObservableObject {
     }
 
     @Published private(set) var state: State
+    private var onDismiss: (() -> Void)?
 
     public init(isPresented: Binding<Bool>) {
         state = State(isPresented: isPresented)
@@ -34,11 +35,11 @@ extension Router: ViewRouter {
         state.root = AnyView(view)
     }
 
-    public func navigateTo<V: View>(_ view: V) {
+    public func navigateTo<V: View>(_ view: V, onDismiss: (() -> Void)?) {
         state.navigating = AnyView(view)
     }
 
-    public func presentSheet<V: View>(_ view: V) {
+    public func presentSheet<V: View>(_ view: V, onDismiss: (() -> Void)?) {
         state.presentingSheet = AnyView(view)
     }
 
