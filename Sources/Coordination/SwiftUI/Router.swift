@@ -7,16 +7,17 @@
 
 import SwiftUI
 
-public protocol ViewRouter {
+public protocol ViewRouter: ObservableObject {
+    var rootView: AnyView { get }
+    
     func setRoot<V: View>(_ view: V)
     func navigateTo<V: View>(_ view: V, onDismiss: (() -> Void)?)
     func presentSheet<V: View>(_ view: V, onDismiss: (() -> Void)?)
     func dismiss()
+    
 }
 
-public typealias ObservableViewRouter = ObservableObject & ViewRouter
-
-public class Router: ObservableViewRouter {
+public class Router: ViewRouter {
     struct State {
         var root: AnyView?
         var navigating: AnyView?
@@ -47,6 +48,10 @@ extension Router {
 
     public func dismiss() {
         state.isPresented.wrappedValue = false
+    }
+    
+    public var rootView: AnyView {
+        state.root ?? AnyView(Color.white)
     }
 }
 
@@ -91,11 +96,5 @@ public extension View {
 
     func sheet(_ router: Router) -> some View {
         modifier(SheetModifier(presentingView: router.binding(keyPath: \.presentingSheet)))
-    }
-}
-
-public extension Router {
-    var rootView: AnyView {
-        state.root ?? AnyView(Color.white)
     }
 }
