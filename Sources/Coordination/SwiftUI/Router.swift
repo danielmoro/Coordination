@@ -14,7 +14,9 @@ public protocol ViewRouter {
     func dismiss()
 }
 
-public class Router: ObservableObject {
+public typealias ObservableViewRouter = ObservableObject & ViewRouter
+
+public class Router: ObservableViewRouter {
     struct State {
         var root: AnyView?
         var navigating: AnyView?
@@ -30,7 +32,7 @@ public class Router: ObservableObject {
     }
 }
 
-extension Router: ViewRouter {
+extension Router {
     public func setRoot<V: View>(_ view: V) {
         state.root = AnyView(view)
     }
