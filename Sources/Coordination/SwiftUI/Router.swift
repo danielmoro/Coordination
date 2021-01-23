@@ -82,12 +82,18 @@ private extension Router {
     }
 }
 
-extension View {
+public extension View {
     func navigation(_ router: Router) -> some View {
         modifier(NavigationModifier(presentingView: router.binding(keyPath: \.navigating)))
     }
 
     func sheet(_ router: Router) -> some View {
         modifier(SheetModifier(presentingView: router.binding(keyPath: \.presentingSheet)))
+    }
+}
+
+public extension Router {
+    var rootView: AnyView {
+        state.root ?? AnyView(Color.white)
     }
 }
