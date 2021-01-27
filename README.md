@@ -1,3 +1,3 @@
 # Coordination
 
-Application Coordination and routing module.
+Application coordination and routing module.
