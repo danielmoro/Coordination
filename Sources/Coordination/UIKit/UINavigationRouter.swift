@@ -12,8 +12,7 @@
     public class UINavigationRouter: NSObject {
         private let navigationController: UINavigationController
         private let routerRootController: UIViewController?
-        private var onDismissForViewController:
-            [UIViewController: () -> Void] = [:]
+        private var onDismissForViewController: [UIViewController: () -> Void] = [:]
 
         public init(navigationController: UINavigationController) {
             self.navigationController = navigationController
@@ -28,30 +27,25 @@
     // MARK: - Router
 
     extension UINavigationRouter: UIViewControllerRouter {
-        public func present(_ viewController: UIViewController,
-                            animated: Bool,
-                            onDismissed: (() -> Void)?) {
+        public func present(_ viewController: UIViewController, animated: Bool, onDismissed: (() -> Void)?) {
             onDismissForViewController[viewController] = onDismissed
-            navigationController.pushViewController(viewController,
-                                                    animated: animated)
+            navigationController.pushViewController(viewController, animated: animated)
         }
 
         public func dismiss(animated: Bool) {
             guard let routerRootController = routerRootController else {
-                navigationController.popToRootViewController(
-                    animated: animated)
+                navigationController.popToRootViewController(animated: animated)
                 return
             }
             performOnDismissed(for: routerRootController)
-            navigationController.popToViewController(
-                routerRootController,
-                animated: animated)
+            navigationController.popToViewController(routerRootController, animated: animated)
         }
 
         private func performOnDismissed(for
             viewController: UIViewController) {
             guard let onDismiss =
-                onDismissForViewController[viewController] else {
+                onDismissForViewController[viewController]
+            else {
                 return
             }
             onDismiss()
@@ -64,13 +58,15 @@
     extension UINavigationRouter: UINavigationControllerDelegate {
         public func navigationController(
             _ navigationController: UINavigationController,
-            didShow viewController: UIViewController,
-            animated: Bool) {
+            didShow _: UIViewController,
+            animated _: Bool
+        ) {
             guard let dismissedViewController =
                 navigationController.transitionCoordinator?
                     .viewController(forKey: .from),
                     !navigationController.viewControllers
-                    .contains(dismissedViewController) else {
+                    .contains(dismissedViewController)
+            else {
                 return
             }
             performOnDismissed(for: dismissedViewController)

@@ -10,22 +10,16 @@
     import UIKit
 
     public protocol UIViewControllerRouter {
-        func present(_ viewController: UIViewController,
-                     animated: Bool)
+        func present(_ viewController: UIViewController, animated: Bool)
 
-        func present(_ viewController: UIViewController,
-                     animated: Bool,
-                     onDismissed: (() -> Void)?)
+        func present(_ viewController: UIViewController, animated: Bool, onDismissed: (() -> Void)?)
 
         func dismiss(animated: Bool)
     }
 
-    extension UIViewControllerRouter {
-        public func present(_ viewController: UIViewController,
-                            animated: Bool) {
-            present(viewController,
-                    animated: animated,
-                    onDismissed: nil)
+    public extension UIViewControllerRouter {
+        func present(_ viewController: UIViewController, animated: Bool) {
+            present(viewController, animated: animated, onDismissed: nil)
         }
     }
 
