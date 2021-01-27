@@ -1,0 +1,38 @@
+name: Coordination
+targets:
+  Coordination:
+    sources: Sources
+    type: framework
+    platform: [iOS, macOS]
+    deploymentTarget:
+      iOS: 13.0
+      macOS: 10.15
+    preBuildScripts:
+      - script: |
+                swiftformat --swiftversion 5.3 .
+                swiftlint autocorrect
+                swiftlint lint
+        name: BuildTools
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: Don't Code Sign
+  CoordinationTests:
+    sources: Tests
+    type: bundle.unit-test
+    platform: [iOS, macOS]
+    deploymentTarget:
+      iOS: 13.0
+      macOS: 10.15
+    preBuildScripts:
+      - script: |
+                swiftformat --swiftversion 5.3 .
+                swiftlint autocorrect
+                swiftlint lint
+        name: BuildTools
+    dependencies:
+      - target: Coordination_${platform}
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: Don't Code Sign
