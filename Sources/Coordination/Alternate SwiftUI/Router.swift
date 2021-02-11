@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public protocol ViewRouter: ObservableObject {
+public protocol ObservableRouter: ObservableObject {
     var rootView: AnyView { get }
 
     func setRoot<V: View>(_ view: V)
@@ -16,7 +16,7 @@ public protocol ViewRouter: ObservableObject {
     func dismiss()
 }
 
-public class Router: ViewRouter {
+public class Router: ObservableRouter {
     struct State {
         var root: AnyView?
         var navigating: AnyView?

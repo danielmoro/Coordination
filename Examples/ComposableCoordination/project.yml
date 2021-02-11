@@ -1,0 +1,60 @@
+name: ComposableCoordination
+packages:
+  swift-composable-architecture:
+    url: https://github.com/pointfreeco/swift-composable-architecture.git
+    from: 0.14.0
+targets:
+  ComposableCoordination:
+    sources: Sources
+    type: application
+    platform: iOS
+    info:
+      path: Info.plist
+      properties:
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UILaunchScreen:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UIApplicationSupportsIndirectInputEvents: true
+        ITSAppUsesNonExemptEncryption: false
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleIconName: AppIcon
+    deploymentTarget:
+      iOS: 13.0
+      macOS: 10.15
+    preBuildScripts:
+      - script: |
+                swiftformat --swiftversion 5.3 .
+                swiftlint autocorrect
+                swiftlint lint
+        name: BuildTools
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: Don't Code Sign
+        PRODUCT_BUNDLE_IDENTIFIER: com.ComposableCoordination
+        MARKETING_VERSION: 0.1
+        CURRENT_PROJECT_VERSION: 0.1.0
+    dependencies:
+      - package: swift-composable-architecture
+        product: ComposableArchitecture
+  ComposableCoordinationTests:
+    sources: Tests
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget:
+      iOS: 13.0
+      macOS: 10.15
+    preBuildScripts:
+      - script: |
+                swiftformat --swiftversion 5.3 .
+                swiftlint autocorrect
+                swiftlint lint
+        name: BuildTools
+    dependencies:
+      - target: ComposableCoordination
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: Don't Code Sign

@@ -24,9 +24,5 @@ let package = Package(
             name: "Coordination",
             dependencies: []
         ),
-        .testTarget(
-            name: "CoordinationTests",
-            dependencies: ["Coordination"]
-        )
     ]
 )
