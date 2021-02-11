@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
     func withNavigation<T: View>(to destination: T) -> some View {
         background(destination)
     }
